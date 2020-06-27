@@ -12,6 +12,27 @@ cc.Class({
         },
     },
 
+    onLoad() {
+        this.length = parseInt(700 / this.size);
+        this.node.on(cc.Node.EventType.TOUCH_START, this.on_touch_start, this);
+        this.node.on(cc.Node.EventType.TOUCH_END, this.on_touch_end, this);
+        this.node.width = this.node.height = this.size * this.length + 20;
+        cc.loader.loadRes('space', cc.SpriteFrame, (err, spriteFrame) => {
+            let delta = this.size * this.size - this.node.children.length;
+            for (let i = 0; i < delta; ++i) {
+                var node = new cc.Node('Sprite');
+                node.addComponent(cc.Sprite);
+                node.parent = this.node;
+            }
+            for (let i = 0; i < this.size * this.size; ++i) {
+                this.generate(i, spriteFrame);
+            }
+            for (let i = this.size * this.size; i < this.node.children.length; ++i) {
+                this.node.children[i].opacity = 0;
+            }
+        });
+    },
+
     generate(id, spriteFrame) {
         let size = this.size;
         let length = this.length;
@@ -20,31 +41,29 @@ cc.Class({
         target.width = target.height = length;
         target.x = parseInt(id / size) * length + length / 2 + 10;
         target.y = parseInt(id % size) * length + length / 2 + 10;
+        target.opacity = 255;
     },
 
-    onLoad() {
-        this.node.width = this.node.height = this.size * this.length + 20;
-        cc.loader.loadRes('space', cc.SpriteFrame, (err, spriteFrame) => {
-            if (!this.node.children.length) {
-                for (let i = 0; i < this.size; ++i) {
-                    for (let j = 0; j < this.size; ++j) {
-                        var node = new cc.Node('Sprite');
-                        node.addComponent(cc.Sprite);
-                        node.parent = this.node;
-                    }
-                }
-            }
-            for (let i = 0; i < this.size; ++i) {
-                for (let j = 0; j < this.size; ++j) {
-                    this.generate(i * this.size + j, spriteFrame);
-                }
-            }
-        });
+    on_touch_start() {
+        this.tap = 1;
+        setTimeout(() => {
+            this.tap = 0;
+        }, 300);
     },
 
-    start() {
-
+    on_touch_end(event) {
+        if (this.tap) {
+            let plant = cc.find('/Canvas/Plant');
+            plant.x = event.getLocationX() - 360;
+            plant.y = event.getLocationY() - 640;
+            plant.getComponent('move').on_touch_end();
+        }
     },
+
+    gameover() {
+        this.node.off(cc.Node.EventType.TOUCH_START, this.on_touch_start, this);
+        this.node.off(cc.Node.EventType.TOUCH_END, this.on_touch_end, this);
+    }
 
     // update (dt) {},
 });

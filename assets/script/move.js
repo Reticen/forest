@@ -8,14 +8,6 @@ cc.Class({
         },
     },
 
-    generate() {
-        if (this.species[1] && this.species[2] && this.species[3] && this.species[4]) {
-            this.plant = parseInt(Math.random() * 4) + 1;
-            this.getComponent(cc.Sprite).spriteFrame = this.species[this.plant];
-            this.node.width = this.node.height = this.land.length;
-        }
-    },
-
     onLoad() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.on_touch_move, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.on_touch_end, this);
@@ -23,6 +15,7 @@ cc.Class({
         this.node.x = 200;
         this.node.y = 500;
 
+        this.multiply = 1;
         this.map = [];
         for (let i = 0; i < this.land.size; ++i) {
             this.map[i] = [];
@@ -47,7 +40,16 @@ cc.Class({
         });
     },
 
+    generate() {
+        if (this.species[1] && this.species[2] && this.species[3] && this.species[4]) {
+            this.plant = parseInt(Math.random() * 4) + 1;
+            this.getComponent(cc.Sprite).spriteFrame = this.species[this.plant];
+            this.node.width = this.node.height = this.land.length;
+        }
+    },
+
     on_touch_move(event) {
+        this.move = 1;
         this.node.opacity = 100;     //半透明
         let delta = event.touch.getDelta();
         this.node.x += delta.x;      //this.x是在父节点坐标系下的坐标
@@ -161,7 +163,8 @@ cc.Class({
                 if (this.check(x, y) && this.check(x - 1, y) && this.check(x + 1, y) && this.check(x, y - 1) && this.check(x, y + 1)) {
                     this.land.generate(min, this.getComponent(cc.Sprite).spriteFrame);
                     let score = cc.find('/Canvas/Score').getComponent('score');
-                    let add_score = (parseInt(Math.random() * 50) + 50) * (5 - this.plant);
+                    let add_score = parseInt((parseInt(Math.random() * 21) + 40) * (5 - this.plant) * this.multiply);
+                    this.multiply += 1 / this.land.size / this.land.size;
                     score.add(add_score);     //加分
                     this.generate();
                 } else {
@@ -178,8 +181,8 @@ cc.Class({
                         }, 100);
                     }, 100);
                     this.map[x][y] = 0;
-                    this.go_to_end();
                 }
+                this.go_to_end();
             }
         }
 
@@ -191,8 +194,10 @@ cc.Class({
         this.on_touch_end();
     },
 
-    start() {
-
+    gameover() {
+        this.node.off(cc.Node.EventType.TOUCH_MOVE, this.on_touch_move, this);
+        this.node.off(cc.Node.EventType.TOUCH_END, this.on_touch_end, this);
+        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.on_touch_cancel, this);
     },
 
     // update (dt) {},

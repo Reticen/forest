@@ -12,8 +12,6 @@ cc.Class({
         },
     },
 
-    // LIFE-CYCLE CALLBACKS:
-
     onLoad() {
         this.number = 0;
         let label = this.getComponent(cc.Label);

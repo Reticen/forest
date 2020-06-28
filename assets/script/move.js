@@ -71,7 +71,7 @@ cc.Class({
 
         for (let i = 0; i < size * size; ++i) {
             if (i == min && new_vect.x >= blocks[min].x - length / 2 && new_vect.x <= blocks[min].x + length / 2 && new_vect.y >= blocks[min].y - length / 2 && new_vect.y <= blocks[min].y + length / 2 && !this.map[parseInt(min / size)][parseInt(min % size)]) {
-                blocks[i].opacity = 200;
+                blocks[i].opacity = 100;
             } else {
                 blocks[i].opacity = 255;
             }
@@ -168,18 +168,21 @@ cc.Class({
                     score.add(add_score);     //加分
                     this.generate();
                 } else {
-                    setTimeout(() => {
-                        blocks[min].opacity = 200;
-                        setTimeout(() => {
-                            blocks[min].opacity = 255;
-                            setTimeout(() => {
-                                blocks[min].opacity = 200;
-                                setTimeout(() => {
-                                    blocks[min].opacity = 255;
-                                }, 100);
-                            }, 100);
-                        }, 100);
-                    }, 100);
+                    let g = function (a) {
+                        blocks[min].opacity = a;
+                        if (a < 255) {
+                            setTimeout(g, 5, a + 15);
+                        }
+                    };
+                    let f = function (a) {
+                        blocks[min].opacity = a;
+                        if (a > 0) {
+                            setTimeout(f, 5, a - 15);
+                        } else {
+                            g(0);
+                        }
+                    };
+                    f(255);
                     this.map[x][y] = 0;
                 }
                 this.go_to_end();

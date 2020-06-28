@@ -12,17 +12,17 @@ cc.Class({
         this.node.children[0].on(cc.Node.EventType.TOUCH_END, () => {
             land.size = 4;
             score.highest = 0;
-            gameover.on_touch_start();
+            gameover.on_touch_end();
         }, this);
         this.node.children[1].on(cc.Node.EventType.TOUCH_END, () => {
             land.size = 5;
             score.highest = 0;
-            gameover.on_touch_start();
+            gameover.on_touch_end();
         }, this);
         this.node.children[2].on(cc.Node.EventType.TOUCH_END, () => {
             land.size = 6;
             score.highest = 0;
-            gameover.on_touch_start();
+            gameover.on_touch_end();
         }, this);
     },
 

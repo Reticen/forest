@@ -2,7 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     set() {
-        this.node.on(cc.Node.EventType.TOUCH_START, this.on_touch_start, this);
+        this.node.on(cc.Node.EventType.TOUCH_END, this.on_touch_end, this);
         this.node.opacity = 245;
         let land = cc.find('/Canvas/ScrollView/view/content').getComponent('land');
         land.gameover();
@@ -10,8 +10,8 @@ cc.Class({
         plant.gameover();
     },
 
-    on_touch_start() {
-        this.node.off(cc.Node.EventType.TOUCH_START, this.on_touch_start, this);
+    on_touch_end() {
+        this.node.off(cc.Node.EventType.TOUCH_END, this.on_touch_end, this);
         this.node.opacity = 0;
         let score = cc.find('/Canvas/Score').getComponent('score');
         score.onLoad();

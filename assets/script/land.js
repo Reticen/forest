@@ -42,6 +42,23 @@ cc.Class({
         target.x = parseInt(id / size) * length + length / 2 + 10;
         target.y = parseInt(id % size) * length + length / 2 + 10;
         target.opacity = 255;
+        let g = function (a) {
+            target.height = length - a;
+            target.y = parseInt(id % size) * length + target.height / 2 + 10;
+            if (a > 0) {
+                setTimeout(g, 5, a - 1);
+            }
+        };
+        let f = function (a) {
+            target.height = length - a;
+            target.y = parseInt(id % size) * length + target.height / 2 + 10;
+            if (a < 15) {
+                setTimeout(f, 5, a + 1);
+            } else {
+                g(15);
+            }
+        };
+        f(0);
     },
 
     on_touch_start() {

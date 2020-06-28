@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.18216960430145263,
-      "y": 0.18216960430145263,
+      "x": 0.13477376699447632,
+      "y": 0.13477376699447632,
       "z": 1
     },
     "_quat": {
@@ -386,8 +386,10 @@
     "_fontSize": 50,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "86e9bdad-a896-47f6-bc95-6ab02d5af032"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
@@ -485,8 +487,10 @@
     "_fontSize": 50,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "86e9bdad-a896-47f6-bc95-6ab02d5af032"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,

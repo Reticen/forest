@@ -20,7 +20,7 @@ cc.Class({
         cc.loader.loadRes('space', cc.SpriteFrame, (err, spriteFrame) => {
             let delta = this.size * this.size - this.node.children.length;
             for (let i = 0; i < delta; ++i) {
-                var node = new cc.Node('Sprite');
+                let node = new cc.Node('Sprite');
                 node.addComponent(cc.Sprite);
                 node.parent = this.node;
             }
@@ -42,23 +42,23 @@ cc.Class({
         target.x = parseInt(id / size) * length + length / 2 + 10;
         target.y = parseInt(id % size) * length + length / 2 + 10;
         target.opacity = 255;
-        let g = function (a) {
+        let g = function (target, a) {
             target.height = length - a;
             target.y = parseInt(id % size) * length + target.height / 2 + 10;
             if (a > 0) {
-                setTimeout(g, 5, a - 1);
+                setTimeout(g, 5, target, a - 1);
             }
         };
-        let f = function (a) {
+        let f = function (target, a) {
             target.height = length - a;
             target.y = parseInt(id % size) * length + target.height / 2 + 10;
             if (a < 15) {
-                setTimeout(f, 5, a + 1);
+                setTimeout(f, 5, target, a + 1);
             } else {
-                g(15);
+                g(target, 15);
             }
         };
-        f(0);
+        f(target, 0);
     },
 
     on_touch_start() {

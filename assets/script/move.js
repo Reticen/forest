@@ -168,21 +168,25 @@ cc.Class({
                     score.add(add_score);     //加分
                     this.generate();
                 } else {
-                    let g = function (a) {
-                        blocks[min].opacity = a;
+                    let g = function (target, a) {
+                        target.opacity = a;
                         if (a < 255) {
-                            setTimeout(g, 5, a + 15);
+                            setTimeout(() => {
+                                g(target, a + 15);
+                            }, 5);
                         }
                     };
-                    let f = function (a) {
-                        blocks[min].opacity = a;
+                    let f = function (target, a) {
+                        target.opacity = a;
                         if (a > 0) {
-                            setTimeout(f, 5, a - 15);
+                            setTimeout(() => {
+                                f(target, a - 15);
+                            }, 5);
                         } else {
-                            g(0);
+                            g(target, 0);
                         }
                     };
-                    f(255);
+                    f(blocks[min], 255);
                     this.map[x][y] = 0;
                 }
                 this.go_to_end();

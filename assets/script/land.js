@@ -46,14 +46,18 @@ cc.Class({
             target.height = length - a;
             target.y = parseInt(id % size) * length + target.height / 2 + 10;
             if (a > 0) {
-                setTimeout(g, 5, target, a - 1);
+                setTimeout(() => {
+                    g(target, a - 1);
+                }, 5);
             }
         };
         let f = function (target, a) {
             target.height = length - a;
             target.y = parseInt(id % size) * length + target.height / 2 + 10;
             if (a < 15) {
-                setTimeout(f, 5, target, a + 1);
+                setTimeout(() => {
+                    f(target, a + 1);
+                }, 5);
             } else {
                 g(target, 15);
             }

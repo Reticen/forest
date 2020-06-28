@@ -10,7 +10,9 @@ cc.Class({
             let f = function (a) {
                 cc.find('/Canvas/Text').opacity = a;
                 if (a < 255) {
-                    setTimeout(f, 5, a + 1);
+                    setTimeout(() => {
+                        f(a + 15);
+                    }, 5);
                 }
             };
             f(0);
